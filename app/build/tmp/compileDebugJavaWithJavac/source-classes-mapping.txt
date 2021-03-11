@@ -1,0 +1,7 @@
+com/human/edu/LoginActivity.java
+ com.human.edu.LoginActivity
+com/human/edu/BuildConfig.java
+ com.human.edu.BuildConfig
+com/human/edu/MainActivity.java
+ com.human.edu.MainActivity
+ com.human.edu.MainActivity$1
