@@ -17,6 +17,7 @@ import core.PostResponseAsyncTask;
 
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
+    EditText editTextID, editTextPassword;
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -54,32 +55,41 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         btnLogin = findViewById(R.id.btnLogin);
+        editTextID = findViewById(R.id.editTextID);
+        editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextID, editTextPassword;
-                editTextID = findViewById(R.id.editTextID);
-                editTextPassword = findViewById(R.id.editTextPassword);
+                //스프링으로 보낼 데이터를 해시맵 타입을 저장
                 HashMap postDataParams = new HashMap();
-                postDataParams.put("mobile", "android");
-                postDataParams.put("txtUsername", editTextID.getText().toString());
-                postDataParams.put("txtPassword", editTextPassword.getText().toString());
-                String requestUrl ="http://192.168.123.66:8080/android/login";
+                postDataParams.put("txtUsername",editTextID.getText().toString());
+                postDataParams.put("txtPassword",editTextPassword.getText().toString());
+                //스프링앱 주소를 지정
+                String requestUrl = "http://192.168.100.18:8080/android/login";
+                //jsp의 Ajax과 같은 역할의 AsyncTask클래스 사용
                 PostResponseAsyncTask readTask = new PostResponseAsyncTask(LoginActivity.this, postDataParams, new AsyncResponse() {
                     @Override
-                    public void processFinish(String s) {
-                        Toast.makeText(LoginActivity.this, s+"디버그", Toast.LENGTH_LONG).show();
-                        String jsonString = s.substring(s.indexOf('{'),s.indexOf(('}')));
-                        if(!jsonString.equals("{}")) {
-                            Log.i("디버그",jsonString);
-                            Intent in = new Intent(LoginActivity.this, SubActivity.class);
-                            startActivity(in);
+                    public void processFinish(String output) {//output는 스프링앱에서 전송받은 로그인 사용자 정보
+                        Toast.makeText(LoginActivity.this, output+"디버그", Toast.LENGTH_SHORT).show();
+                        String jsonString = output.substring(output.indexOf('{'),output.indexOf('}'));
+                        if(!jsonString.equals("{}")) { //로그인 사용자 정보가 있으면
+                           Log.i("디버그", jsonString);
+                           //로그인 이후 액티비티를 여기서 띄우기
+                            Intent intent = new Intent(LoginActivity.this, SubActivity.class);
+                            startActivity(intent);
                         }else{
-                            Toast.makeText(LoginActivity.this, s+"로그인 실패", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-                readTask.execute(requestUrl);
+                readTask.execute(requestUrl);//1번 작업(백그라운드호출)
+                /* 로그인 인증 이후에 사용
+                //Intent는 안드로이드앱에서 액티비티간 데이터를 전송하는 클래스
+                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                mainIntent.putExtra("editTextID", editTextID.getText().toString());
+                mainIntent.putExtra("editTextPassword", editTextPassword.getText().toString());
+                startActivity(mainIntent);
+                 */
             }
         });
     }
