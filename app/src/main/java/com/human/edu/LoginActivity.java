@@ -2,12 +2,18 @@ package com.human.edu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
+
+import core.AsyncResponse;
+import core.PostResponseAsyncTask;
 
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
@@ -54,10 +60,26 @@ public class LoginActivity extends AppCompatActivity {
                 EditText editTextID, editTextPassword;
                 editTextID = findViewById(R.id.editTextID);
                 editTextPassword = findViewById(R.id.editTextPassword);
-                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                mainIntent.putExtra("editTextID", editTextID.getText().toString());
-                mainIntent.putExtra("editTextPassword", editTextPassword.getText().toString());
-                startActivity(mainIntent);
+                HashMap postDataParams = new HashMap();
+                postDataParams.put("mobile", "android");
+                postDataParams.put("txtUsername", editTextID.getText().toString());
+                postDataParams.put("txtPassword", editTextPassword.getText().toString());
+                String requestUrl ="http://192.168.123.66:8080/android/login";
+                PostResponseAsyncTask readTask = new PostResponseAsyncTask(LoginActivity.this, postDataParams, new AsyncResponse() {
+                    @Override
+                    public void processFinish(String s) {
+                        Toast.makeText(LoginActivity.this, s+"디버그", Toast.LENGTH_LONG).show();
+                        String jsonString = s.substring(s.indexOf('{'),s.indexOf(('}')));
+                        if(!jsonString.equals("{}")) {
+                            Log.i("디버그",jsonString);
+                            Intent in = new Intent(LoginActivity.this, SubActivity.class);
+                            startActivity(in);
+                        }else{
+                            Toast.makeText(LoginActivity.this, s+"로그인 실패", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                readTask.execute(requestUrl);
             }
         });
     }
