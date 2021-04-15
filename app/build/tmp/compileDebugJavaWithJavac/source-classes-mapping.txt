@@ -1,6 +1,5 @@
 core/JsonConverter.java
  core.JsonConverter
- core.JsonConverter$1
  core.JsonConverter$ListParameterizedType
 com/human/edu/RecyclerAdapter.java
  com.human.edu.RecyclerAdapter
@@ -9,6 +8,16 @@ com/human/edu/RecyclerAdapter.java
  com.human.edu.RecyclerAdapter$OnItemClickListener
 com/human/edu/MemberVO.java
  com.human.edu.MemberVO
+core/PostResponseAsyncTask.java
+ core.PostResponseAsyncTask
+com/human/edu/MainActivity.java
+ com.human.edu.MainActivity
+ com.human.edu.MainActivity$1
+ com.human.edu.MainActivity$2
+com/human/edu/BuildConfig.java
+ com.human.edu.BuildConfig
+core/AsyncResponse.java
+ core.AsyncResponse
 com/human/edu/LoginActivity.java
  com.human.edu.LoginActivity
  com.human.edu.LoginActivity$1
@@ -16,13 +25,8 @@ com/human/edu/LoginActivity.java
 com/human/edu/SubActivity.java
  com.human.edu.SubActivity
  com.human.edu.SubActivity$1
-com/human/edu/BuildConfig.java
- com.human.edu.BuildConfig
-core/AsyncResponse.java
- core.AsyncResponse
-com/human/edu/MainActivity.java
- com.human.edu.MainActivity
- com.human.edu.MainActivity$1
- com.human.edu.MainActivity$2
-core/PostResponseAsyncTask.java
- core.PostResponseAsyncTask
+ com.human.edu.SubActivity$2
+ com.human.edu.SubActivity$3
+ com.human.edu.SubActivity$3$1
+ com.human.edu.SubActivity$4
+ com.human.edu.SubActivity$5
